@@ -1,0 +1,44 @@
+body {
+	font-family: "Poppins", sans-serif;
+	background-color: #f0f0f0;
+}
+
+main {
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 20px 20px 150px 20px;
+	margin: 10%;
+}
+
+input {
+	padding: 5px;
+	font-size: 20px;
+	width: 100px;
+}
+
+form {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	gap: 10px;
+}
+
+.column {
+}
+
+#results {
+	font-weight: 800;
+	font-style: italic;
+	font-size: 60px;
+}
+
+#results p {
+	display: inline;
+}
+
+#dayResult,
+#monthResult,
+#yearResult {
+	color: #854dff;
+}
