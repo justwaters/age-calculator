@@ -33,11 +33,6 @@ form {
 	padding: 10px;
 }
 
-.column p {
-	font-weight: 300;
-	color: #716f6f;
-}
-
 img {
 	padding: 10px;
 	border-radius: 50%;
@@ -46,6 +41,14 @@ img {
 	top: 50%;
 	left: 50%;
 	transform: translateX(-50%) translateY(-50%);
+}
+
+.inputError {
+	color: #ff5757;
+	font-size: 14px;
+	font-style: italic;
+	font-weight: 400;
+	display: none;
 }
 
 .seperator {
@@ -61,6 +64,11 @@ img {
 	width: 100%;
 	height: 1px;
 	background-color: black;
+}
+
+#label {
+	font-weight: 300;
+	color: #716f6f;
 }
 
 #results {
@@ -84,6 +92,10 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
+}
+
+input:required {
+	border: 1px #ff5757 solid;
 }
 
 img:hover {

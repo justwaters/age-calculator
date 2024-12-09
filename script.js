@@ -1,35 +1,54 @@
 function isValidDate(day, month, year) {
-	console.log(day);
-	console.log(month);
-	console.log(year);
-	// Check if the day, month, and year form a valid date
+	day = Number(day);
+	month = Number(month);
+	year = Number(year);
+
 	const date = new Date(year, month - 1, day); // month is 0-indexed
-	console.log(date.getDate());
-	console.log(date.getMonth());
-	console.log(date.getFullYear());
 	return (
-		date.getDate() === day &&
-		date.getMonth() === month - 1 &&
-		date.getFullYear() === year
+		date.getDate() == day &&
+		date.getMonth() == month - 1 &&
+		date.getFullYear() == year
 	);
 }
 
+function test_int(data1, data2, data3) {
+	result1 = Number(data1);
+	result2 = Number(data2);
+	result3 = Number(data3);
+	if (isNaN(data1)) {
+		return 0;
+	} else if (isNaN(data2)) {
+		return 0;
+	} else if (isNaN(data3)) {
+		return 0;
+	} else {
+		return result1 && result2 && result3;
+	}
+}
+
 function calculateAge(birthDay, birthMonth, birthYear) {
-	if (!isValidDate(birthDay, birthMonth, birthYear)) {
+	if (isValidDate(birthDay, birthMonth, birthYear)) {
+		console.log(typeof birthDay);
+		test_int(birthDay, birthMonth, birthYear);
+
 		console.log("error");
 
 		let errorMessage = "Invalid date: ";
-		if (birthMonth < 1 || birthMonth > 12) {
-			errorMessage += `Month ${birthMonth} is out of range (1-12). `;
-		}
 		if (birthDay < 1 || birthDay > 31) {
-			errorMessage += `Day ${birthDay} is out of range (1-31). `;
+			errorMessage += `Day ${birthDay} is out of range (1-31).`;
+			console.log(errorMessage);
+			return null;
 		}
-		if (birthYear < 1000 || birthYear > new Date().getFullYear()) {
+		if (birthMonth < 1 || birthMonth > 12) {
+			errorMessage += `Month ${birthMonth} is out of range (1-12).`;
+			console.log(errorMessage);
+			return null;
+		}
+		if (birthYear < 1900 || birthYear > new Date().getFullYear()) {
 			errorMessage += `Year ${birthYear} is out of range.`;
+			console.log(errorMessage);
+			return null;
 		}
-		console.log(errorMessage);
-		return null;
 	}
 
 	const today = new Date();
@@ -67,15 +86,42 @@ function startCalc() {
 	let birthMonth = document.getElementById("month").value;
 	let birthYear = document.getElementById("year").value;
 
+	if (birthDay == "") {
+		document.getElementById("dayError").textContent = "Required";
+		document.getElementById("dayError").style.display = "block";
+		document.getElementById("day").required = true;
+		return;
+	} else {
+		document.getElementById("dayError").textContent = "";
+		document.getElementById("dayError").style.display = "none";
+		document.getElementById("day").required = false;
+	}
+	if (birthMonth == "") {
+		document.getElementById("monthError").textContent = "Required";
+		document.getElementById("monthError").style.display = "block";
+		document.getElementById("month").required = true;
+		return;
+	} else {
+		document.getElementById("monthError").textContent = "";
+		document.getElementById("monthError").style.display = "none";
+		document.getElementById("month").required = false;
+	}
+	if (birthYear == "") {
+		document.getElementById("yearError").textContent = "Required";
+		document.getElementById("yearError").style.display = "block";
+		document.getElementById("year").required = true;
+		return;
+	} else {
+		document.getElementById("yearError").textContent = "";
+		document.getElementById("yearError").style.display = "none";
+		document.getElementById("year").required = false;
+	}
+
 	let result = calculateAge(birthDay, birthMonth, birthYear);
 
-	document.getElementById("yearResult").textContent = result.years;
-	document.getElementById("monthResult").textContent = result.months;
 	document.getElementById("dayResult").textContent = result.days;
-
-	console.log(result.years);
-	console.log(result.months);
-	console.log(result.days);
+	document.getElementById("monthResult").textContent = result.months;
+	document.getElementById("yearResult").textContent = result.years;
 }
 
 const submit = document
