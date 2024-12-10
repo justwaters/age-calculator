@@ -1,6 +1,7 @@
 body {
 	font-family: "Poppins", sans-serif;
 	background-color: #f0f0f0;
+	min-width: 330px;
 }
 
 main {
@@ -103,4 +104,14 @@ input:required {
 img:hover {
 	background-color: #000000;
 	cursor: pointer;
+}
+
+@media screen and (max-width: 375px) {
+	img {
+		left: 92%;
+	}
+	.seperator {
+		margin-top: 40px;
+		margin-bottom: 30px;
+	}
 }
