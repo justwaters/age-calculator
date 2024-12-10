@@ -192,11 +192,7 @@ function calculate() {
 
 		display(diff, true);
 	} else {
-		document.getElementById("inputError").textContent = isValidDate;
-		document.getElementById("inputError").style.display = "block";
-		document.getElementsByName("input").required = true;
-
-		display(false, false);
+		display(isValidDate, false);
 	}
 }
 
@@ -228,13 +224,13 @@ function validateDate(year, month, day) {
 	const dt = DateTime.fromObject({ year, month, day });
 
 	if (day < 1 || day > getDaysInMonth(year, month)) {
-		return "Please input a valid day";
+		return "day";
 	}
 	if (month < 1 || month > 12) {
-		return "Please input a valid month";
+		return "month";
 	}
 	if (year < 1900 || year > DateTime.local().year) {
-		return "Please input a valid year";
+		return "year";
 	}
 
 	return dt.isValid;
@@ -258,10 +254,46 @@ function display(data, shouldDisplay) {
 		document.getElementById("yearResult").textContent = data.years;
 		document.getElementById("monthResult").textContent = data.months;
 		document.getElementById("dayResult").textContent = data.days;
+
+		document.getElementById("inputError").style.display = "none";
+
+		document.getElementById("day").required = false;
+		document.getElementById("month").required = false;
+		document.getElementById("year").required = false;
 	} else {
 		document.getElementById("yearResult").textContent = "--";
 		document.getElementById("monthResult").textContent = "--";
 		document.getElementById("dayResult").textContent = "--";
+
+		if (data == "day") {
+			document.getElementById("inputError").textContent =
+				"Please input a valid day";
+			document.getElementById("inputError").style.display = "block";
+
+			document.getElementById("day").required = true;
+		} else {
+			document.getElementById("day").required = false;
+		}
+
+		if (data == "month") {
+			document.getElementById("inputError").textContent =
+				"Please input a valid month";
+			document.getElementById("inputError").style.display = "block";
+
+			document.getElementById("month").required = true;
+		} else {
+			document.getElementById("month").required = false;
+		}
+
+		if (data == "year") {
+			document.getElementById("inputError").textContent =
+				"Please input a valid year";
+			document.getElementById("inputError").style.display = "block";
+
+			document.getElementById("year").required = true;
+		} else {
+			document.getElementById("year").required = false;
+		}
 	}
 }
 
