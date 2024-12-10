@@ -4,41 +4,43 @@ This is a solution to the [Age calculator app challenge on Frontend Mentor](http
 
 ## Table of contents
 
-- [Overview](#overview)
-  - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
-  - [Links](#links)
-- [My process](#my-process)
-  - [Built with](#built-with)
-  - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
+- [Screenshot](#screenshot)
+- [Links](#links)
+- [Code highlight](#some-code-im-proud-of)
+- [Useful resources](#resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
-### Screenshot
+## Screenshot
 
-![](./screenshot.jpg)
+![](./images/screenshot.png)
 
-### Links
+## Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [https://github.com/justwaters/age-calculator-app](https://github.com/justwaters/age-calculator-app)
+- Live Site URL: [https://justwaters.github.io/age-calculator-app/](https://justwaters.github.io/age-calculator-app/)
 
-```html
-<h1>Some code I'm proud of</h1>
-```
+## Some code I'm proud of
 
 ```css
-.proud-of-this-css {
-	color: papayawhip;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 ```
 
 ```js
-const proudOfThisFunc = () => {
-	console.log("🎉");
-};
+function testInt(data) {
+	result = Number(data);
+	console.log(typeof result + " / " + result);
+	if (isNaN(result)) {
+		console.log("Check testInt failed!");
+		return 0;
+	} else {
+		console.log("Check testInt passed!");
+		return result;
+	}
+}
 ```
 
 ## Resources
