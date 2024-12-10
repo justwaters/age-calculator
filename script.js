@@ -171,7 +171,7 @@ function calculate() {
 	console.log("isValidDate: ", isValidDate);
 	const dt = DateTime.now();
 
-	if (isValidDate) {
+	if (isValidDate == true) {
 		let date1 = luxon.DateTime.fromISO(dt.toUTC().toISO());
 		let myISO =
 			inputDate.birthYear +
@@ -190,14 +190,13 @@ function calculate() {
 			.toObject();
 		console.log("diff ", diff);
 
-		document.getElementById("yearResult").textContent = diff.years;
-		document.getElementById("monthResult").textContent = diff.months;
-		document.getElementById("dayResult").textContent = diff.days;
+		display(diff, true);
 	} else {
-		document.getElementsByClassName("inputError").textContent =
-			"Not a valid date.";
-		document.getElementsByClassName("inputError").style.display = "block";
+		document.getElementById("inputError").textContent = isValidDate;
+		document.getElementById("inputError").style.display = "block";
 		document.getElementsByName("input").required = true;
+
+		display(false, false);
 	}
 }
 
@@ -225,15 +224,19 @@ function testInt(data) {
 }
 
 function validateDate(year, month, day) {
-	if (month < 1 || month > 12) {
-		return false;
-	}
-	if (day < 1 || day > getDaysInMonth(year, month)) {
-		return false;
-	}
 	let DateTime = luxon.DateTime;
-
 	const dt = DateTime.fromObject({ year, month, day });
+
+	if (day < 1 || day > getDaysInMonth(year, month)) {
+		return "Please input a valid day";
+	}
+	if (month < 1 || month > 12) {
+		return "Please input a valid month";
+	}
+	if (year < 1900 || year > DateTime.local().year) {
+		return "Please input a valid year";
+	}
+
 	return dt.isValid;
 }
 
@@ -247,6 +250,18 @@ function padZeros(data) {
 		return "0" + result;
 	} else {
 		return result;
+	}
+}
+
+function display(data, shouldDisplay) {
+	if (shouldDisplay) {
+		document.getElementById("yearResult").textContent = data.years;
+		document.getElementById("monthResult").textContent = data.months;
+		document.getElementById("dayResult").textContent = data.days;
+	} else {
+		document.getElementById("yearResult").textContent = "--";
+		document.getElementById("monthResult").textContent = "--";
+		document.getElementById("dayResult").textContent = "--";
 	}
 }
 
