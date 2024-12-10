@@ -19,6 +19,8 @@
 			href="./assets/images/favicon-32x32.png"
 		/>
 
+		<script src="https://cdn.jsdelivr.net/npm/luxon@1.26.0/build/global/luxon.min.js"></script>
+
 		<title>Frontend Mentor | Age calculator app</title>
 	</head>
 	<body>
@@ -27,19 +29,17 @@
 				<div class="column">
 					<p id="label">Day</p>
 					<input type="number" id="day" name="day" placeholder="DD" />
-					<p id="dayError" class="inputError">hello</p>
 				</div>
 				<div class="column">
 					<p id="label">Month</p>
 					<input type="number" id="month" name="month" placeholder="MM" />
-					<p id="monthError" class="inputError">hello</p>
 				</div>
 				<div class="column">
 					<p id="label">Year</p>
 					<input type="number" id="year" name="year" placeholder="YYYY" />
-					<p id="yearError" class="inputError">hello</p>
 				</div>
 			</form>
+			<p id="inputError">hello</p>
 			<div class="seperator">
 				<div class="line"></div>
 				<img id="submit" src="/images/icon-arrow.svg" />

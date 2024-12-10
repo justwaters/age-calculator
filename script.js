@@ -1,4 +1,4 @@
-function isValidDate(day, month, year) {
+/*function isValidDate(day, month, year) {
 	day = Number(day);
 	month = Number(month);
 	year = Number(year);
@@ -12,9 +12,9 @@ function isValidDate(day, month, year) {
 }
 
 function test_int(data1, data2, data3) {
-	result1 = Number(data1);
-	result2 = Number(data2);
-	result3 = Number(data3);
+	birthDay = Number(data1);
+	birthMonth = Number(data2);
+	birthYear = Number(data3);
 	if (isNaN(data1)) {
 		return 0;
 	} else if (isNaN(data2)) {
@@ -22,31 +22,35 @@ function test_int(data1, data2, data3) {
 	} else if (isNaN(data3)) {
 		return 0;
 	} else {
-		return result1 && result2 && result3;
+		console.log("Check test_int passed!");
+		return birthDay && birthMonth && birthYear;
 	}
 }
 
 function calculateAge(birthDay, birthMonth, birthYear) {
-	if (isValidDate(birthDay, birthMonth, birthYear)) {
-		console.log(typeof birthDay);
+	console.log(
+		"calculateAge - " + birthDay + " " + birthMonth + " " + birthYear
+	);
+	if (!isValidDate(birthDay, birthMonth, birthYear)) {
 		test_int(birthDay, birthMonth, birthYear);
-
 		console.log("error");
 
 		let errorMessage = "Invalid date: ";
-		if (birthDay < 1 || birthDay > 31) {
-			errorMessage += `Day ${birthDay} is out of range (1-31).`;
+
+		if (result.days < 1 || result.days > 31) {
+			errorMessage += `Day is out of range (1-31).`;
 			console.log(errorMessage);
+			document.getElementById("dayError").textContent = "Day out of range";
+			document.getElementById("dayError").style.display = "block";
+			document.getElementById("day").required = true;
 			return null;
 		}
-		if (birthMonth < 1 || birthMonth > 12) {
-			errorMessage += `Month ${birthMonth} is out of range (1-12).`;
+		if (result.months < 1 || result.months > 12) {
+			errorMessage += `Month is out of range (1-12).`;
 			console.log(errorMessage);
-			return null;
-		}
-		if (birthYear < 1900 || birthYear > new Date().getFullYear()) {
-			errorMessage += `Year ${birthYear} is out of range.`;
-			console.log(errorMessage);
+			document.getElementById("monthError").textContent = "Month out of range";
+			document.getElementById("monthError").style.display = "block";
+			document.getElementById("month").required = true;
 			return null;
 		}
 	}
@@ -119,11 +123,144 @@ function startCalc() {
 
 	let result = calculateAge(birthDay, birthMonth, birthYear);
 
+	let errorMessage = "Invalid date: ";
+	if (result.days < 0 || result.days > 31) {
+		errorMessage += `End Day is out of range (1-31).`;
+		console.log(errorMessage);
+		document.getElementById("dayError").textContent = "Day out of range";
+		document.getElementById("dayError").style.display = "block";
+		document.getElementById("day").required = true;
+		return null;
+	}
+	if (result.months < 0 || result.months > 12) {
+		errorMessage += result.months + `End Month is out of range (1-12).`;
+		console.log(errorMessage);
+		document.getElementById("monthError").textContent = "Month out of range";
+		document.getElementById("monthError").style.display = "block";
+		document.getElementById("month").required = true;
+		return null;
+	}
+	if (result.years < 0 || result.years > 120) {
+		console.log(result.years);
+		errorMessage += `End Year is out of range.`;
+		console.log(errorMessage);
+		document.getElementById("yearError").textContent = "Year out of range";
+		document.getElementById("yearError").style.display = "block";
+		document.getElementById("year").required = true;
+		return null;
+	}
+
 	document.getElementById("dayResult").textContent = result.days;
 	document.getElementById("monthResult").textContent = result.months;
 	document.getElementById("yearResult").textContent = result.years;
+}*/
+
+// ---------------------------------------------
+
+function calculate() {
+	const DateTime = luxon.DateTime;
+
+	let inputDate = getInput();
+
+	let isValidDate = validateDate(
+		testInt(inputDate.birthYear),
+		testInt(inputDate.birthMonth),
+		testInt(inputDate.birthDay)
+	);
+
+	console.log("isValidDate: ", isValidDate);
+	const dt = DateTime.now();
+
+	if (isValidDate) {
+		let date1 = luxon.DateTime.fromISO(dt.toUTC().toISO());
+		let myISO =
+			inputDate.birthYear +
+			"-" +
+			padZeros(inputDate.birthMonth) +
+			"-" +
+			padZeros(inputDate.birthDay) +
+			"T12:00";
+		let date2 = luxon.DateTime.fromISO(myISO);
+
+		console.log("date1 ", date1);
+		console.log("date2 ", date2);
+
+		let diff = date1
+			.diff(date2, ["years", "months", "days", "hours"])
+			.toObject();
+		console.log("diff ", diff);
+
+		document.getElementById("yearResult").textContent = diff.years;
+		document.getElementById("monthResult").textContent = diff.months;
+		document.getElementById("dayResult").textContent = diff.days;
+	} else {
+		document.getElementsByClassName("inputError").textContent =
+			"Not a valid date.";
+		document.getElementsByClassName("inputError").style.display = "block";
+		document.getElementsByName("input").required = true;
+	}
 }
 
-const submit = document
-	.getElementById("submit")
-	.addEventListener("click", startCalc);
+function getInput() {
+	let birthDay = document.getElementById("day").value;
+	let birthMonth = document.getElementById("month").value;
+	let birthYear = document.getElementById("year").value;
+	return {
+		birthDay: birthDay,
+		birthMonth: birthMonth,
+		birthYear: birthYear,
+	};
+}
+
+function testInt(data) {
+	result = Number(data);
+	console.log(typeof result + " / " + result);
+	if (isNaN(result)) {
+		console.log("Check testInt failed!");
+		return 0;
+	} else {
+		console.log("Check testInt passed!");
+		return result;
+	}
+}
+
+function validateDate(year, month, day) {
+	if (month < 1 || month > 12) {
+		return false;
+	}
+	if (day < 1 || day > getDaysInMonth(year, month)) {
+		return false;
+	}
+	let DateTime = luxon.DateTime;
+
+	const dt = DateTime.fromObject({ year, month, day });
+	return dt.isValid;
+}
+
+function getDaysInMonth(year, month) {
+	return new Date(year, month, 0).getDate();
+}
+
+function padZeros(data) {
+	result = Number(data);
+	if (result < 10) {
+		return "0" + result;
+	} else {
+		return result;
+	}
+}
+
+const submit = document.getElementById("submit");
+submit.addEventListener("click", calculate);
+/*
+const date1 = luxon.DateTime.fromISO("2020-09-06T12:00");
+const date2 = luxon.DateTime.fromISO("2019-06-10T14:00");
+
+const diff = date1.diff(date2, ["years", "months", "days", "hours"]);
+
+console.log(diff.toObject());
+
+console.log(validateDate(2023, 12, 31)); // true
+console.log(validateDate(2023, 13, 1)); // false (invalid month)
+console.log(validateDate(2023, 2, 29)); // false (not a leap year)
+*/
